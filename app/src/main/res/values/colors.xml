@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorMainBack">@color/md_white_1000</color>
+    <color name="colorPrimary500">@color/md_blue_500</color>
+    <color name="colorPrimary700">@color/md_blue_700</color>
+    <color name="colorPrimaryDark">@color/md_blue_700</color>
+
+    <color name="colorPrimaryAccent">@color/md_orange_700</color>
+</resources>
