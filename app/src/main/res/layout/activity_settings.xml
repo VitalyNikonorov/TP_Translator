@@ -25,13 +25,12 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
 
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_chevron_right_black_36dp"
-            android:layout_gravity="center"
-            />
+            android:text="Text"
+            android:id="@+id/debugText"
+            android:textColor="@color/md_pink_500"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/langTo"

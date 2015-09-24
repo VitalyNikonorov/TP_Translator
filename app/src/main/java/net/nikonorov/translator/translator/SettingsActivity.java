@@ -7,6 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -18,6 +20,12 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -34,6 +42,24 @@ public class SettingsActivity extends AppCompatActivity {
             initNavigationDrawer(toolbar);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JSONArray langList = null;
+        TextView tv = (TextView) findViewById(R.id.debugText);
+
+        try {
+            langList = loadLangList();
+            tv.setText(langList.getString(0));
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,7 +88,6 @@ public class SettingsActivity extends AppCompatActivity {
 
 
         AccountHeader accountHeader = initAccountHeader();
-
 
         Drawer result = new DrawerBuilder()
                 .withActivity(this)
@@ -124,6 +149,17 @@ public class SettingsActivity extends AppCompatActivity {
                 .addProfiles(profile)
                 .build();
 
+    }
+
+    private JSONArray loadLangList() throws ExecutionException, InterruptedException, JSONException {
+            JSONObject output =
+                    new NetWorker()
+                            .execute("https://translate.yandex.net/api/v1.5/tr.json/getLangs?" +
+                                    "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4")
+                            .get();
+
+            JSONArray resArray = output.getJSONArray("dirs");
+        return resArray;
     }
 
 }
