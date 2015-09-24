@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -20,6 +21,12 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 public class TranslationActivity extends AppCompatActivity {
 
@@ -126,4 +133,30 @@ public class TranslationActivity extends AppCompatActivity {
     }
 
 
+    public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException {
+        EditText textToTranslate = (EditText) findViewById(R.id.textToTranslate);
+        String strToTranslate = textToTranslate.getText().toString();
+        JSONObject output =
+                new NetWorker()
+                        .execute("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
+                                "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4" +
+                                "&text=" + strToTranslate +
+                                "&lang=en-ru" +
+                                "&format=plain")
+                        .get();
+
+        EditText translated = (EditText) findViewById(R.id.translated);
+
+        JSONArray resArray = output.getJSONArray("text");
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < resArray.length(); i++){
+            sb.append(resArray.getString(i));
+            if (i != resArray.length()-1){
+                sb.append(" ");
+            }
+        }
+
+        translated.setText(sb.toString());
+    }
 }
