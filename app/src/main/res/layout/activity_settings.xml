@@ -20,7 +20,7 @@
         android:background="@color/colorMainBack">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/langFrom"
+            android:id="@+id/rv"
             android:layout_weight="3"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content" />
@@ -31,12 +31,6 @@
             android:text="Text"
             android:id="@+id/debugText"
             android:textColor="@color/md_pink_500"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/langTo"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
 
     </LinearLayout>
 

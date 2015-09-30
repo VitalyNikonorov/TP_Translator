@@ -3,6 +3,8 @@ package net.nikonorov.translator.translator;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,9 +27,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private List<Direction> directions;
+    private RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,14 @@ public class SettingsActivity extends AppCompatActivity {
             initNavigationDrawer(toolbar);
         }
 
+        rv = (RecyclerView) findViewById(R.id.rv);
+        rv.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        rv.setLayoutManager(llm);
+
+        initializeData();
+        initializeAdapter();
     }
 
     @Override
@@ -160,6 +175,24 @@ public class SettingsActivity extends AppCompatActivity {
 
             JSONArray resArray = output.getJSONArray("dirs");
         return resArray;
+    }
+
+
+    private void initializeData(){
+        directions = new ArrayList<>();
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
+        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
+    }
+
+    private void initializeAdapter(){
+        RVSettingAdapter adapter = new RVSettingAdapter(directions);
+        rv.setAdapter(adapter);
     }
 
 }
