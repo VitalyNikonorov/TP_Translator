@@ -55,19 +55,17 @@ public class SettingsActivity extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
 
-        initializeData();
-        initializeAdapter();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         JSONArray langList = null;
-        TextView tv = (TextView) findViewById(R.id.debugText);
 
         try {
             langList = loadLangList();
-            tv.setText(langList.getString(0));
+            initializeData(langList);
+            initializeAdapter();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -178,16 +176,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    private void initializeData(){
+    private void initializeData(JSONArray langList) throws JSONException {
         directions = new ArrayList<>();
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "en-ru"));
-        directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, "ru-en"));
+        for (int j = 0; j < langList.length(); j++) {
+            directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, langList.getString(j)));
+        }
     }
 
     private void initializeAdapter(){
