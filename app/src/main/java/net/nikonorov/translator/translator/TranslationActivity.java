@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -83,7 +84,7 @@ public class TranslationActivity extends BaseActivity {
                                     "&format=plain")
                             .get();
 
-            EditText translated = (EditText) findViewById(R.id.translated);
+            TextView translated = (TextView) findViewById(R.id.translated);
 
             JSONArray resArray = output.getJSONArray("text");
 

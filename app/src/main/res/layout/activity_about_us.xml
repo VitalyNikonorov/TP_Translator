@@ -23,16 +23,15 @@
             android:layout_height="wrap_content"
             android:text="@string/authors"
             android:gravity="center"
-            android:textSize="32dp"
+            android:textSize="32sp"
             android:textColor="@color/colorPrimary700">
         </TextView>
         <ListView
             android:id="@+id/lvAU"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:listSelector="@android:color/transparent">
         </ListView>
-
 
     </LinearLayout>
 </LinearLayout>

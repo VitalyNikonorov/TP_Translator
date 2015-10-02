@@ -36,14 +36,17 @@
             android:background="@color/colorPrimaryAccent"
             android:onClick="translateBtnClc" />
 
-        <EditText
+        <TextView
             android:textColor="@color/colorAccent"
             android:id="@+id/translated"
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:layout_marginTop="15dp"
             android:gravity="top"
-            android:scrollbars="vertical">
-        </EditText>
+            android:scrollbars="vertical"
+            android:textIsSelectable="true"
+            >
+        </TextView>
 
     </LinearLayout>
 </LinearLayout>

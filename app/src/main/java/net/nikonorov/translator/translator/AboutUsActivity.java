@@ -29,22 +29,18 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
         initToolbar();
 
-        // находим список
         ListView lvMain = (ListView) findViewById(R.id.lvAU);
 
-        String[] names = { "Vitaly", "Boris", "Ivan" };
+        String[] names = { "Vitaly Nikonorov", "Boris Kolganov", "Ivan Dunin" };
 
-        // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.about_us_item, names);
 
-        // присваиваем адаптер списку
         lvMain.setAdapter(adapter);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_about_us, menu);
         return true;
     }
