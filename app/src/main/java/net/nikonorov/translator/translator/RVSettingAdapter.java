@@ -15,17 +15,23 @@ import java.util.List;
  */
 public class RVSettingAdapter extends RecyclerView.Adapter<RVSettingAdapter.CardViewHolder> {
 
-    public static class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener  {
         CardView cv;
         TextView dirs;
         ImageView langFrom;
         ImageView langTo;
         CardViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             cv = (CardView)itemView.findViewById(R.id.cv);
             dirs = (TextView)itemView.findViewById(R.id.lang_direction);
             langFrom = (ImageView)itemView.findViewById(R.id.lang_from);
             langTo = (ImageView)itemView.findViewById(R.id.lang_to);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Settings.DIRECTION = dirs.getText().toString();
         }
     }
 
