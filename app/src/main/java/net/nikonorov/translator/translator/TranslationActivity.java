@@ -3,20 +3,33 @@ package net.nikonorov.translator.translator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+
+import net.nikonorov.translator.translator.API.API;
+import net.nikonorov.translator.translator.API.Text;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class TranslationActivity extends BaseActivity {
 
@@ -59,33 +72,49 @@ public class TranslationActivity extends BaseActivity {
                 .build();
     }
 
-    public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException {
+    public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException, IOException {
         EditText textToTranslate = (EditText) findViewById(R.id.textToTranslate);
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
         if (strToTranslate != null) {
-            JSONObject output =
-                    new NetWorker()
-                            .execute("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
-                                    "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4" +
-                                    "&text=" + strToTranslate +
-                                    "&lang="+ Settings.DIRECTION +
-                                    "&format=plain")
-                            .get();
 
-            TextView translated = (TextView) findViewById(R.id.translated);
 
-            JSONArray resArray = output.getJSONArray("text");
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://translate.yandex.net/api/v1.5/tr.json/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < resArray.length(); i++) {
-                sb.append(resArray.getString(i));
-                if (i != resArray.length() - 1) {
-                    sb.append(" ");
+            API myAPI = retrofit.create(API.class);
+
+            Call<Text> call = myAPI.getText("trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4",
+                    strToTranslate,
+                    Settings.DIRECTION,
+                    "plain");
+
+
+
+            call.enqueue(new Callback<Text>() {
+                @Override
+                public void onResponse(Response<Text> response, Retrofit retrofit) {
+                    Text text = response.body();
+                    String[] result = text.text;
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < result.length; i++) {
+                        sb.append(result[i]);
+                        if (i != result.length - 1) {
+                            sb.append(" ");
+                        }
+                    }
+                    TextView translated = (TextView) findViewById(R.id.translated);
+                    translated.setText(sb.toString());
                 }
-            }
 
-            translated.setText(sb.toString());
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
     }
 }
