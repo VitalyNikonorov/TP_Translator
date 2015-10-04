@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1400dp"
+    android:height="700dp"
+    android:viewportWidth="1400"
+    android:viewportHeight="700">
+
+    <path
+        android:fillColor="#060"
+        android:pathData="M 0 0 H 1400 V 700 H 0 V 0 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M 0 0 H 1400 V 500 H 0 V 0 Z" />
+    <path
+        android:fillColor="#c00"
+        android:pathData="M 0 0 H 1400 V 200 H 0 V 0 Z" />
+    <group>
+        <path
+            android:fillColor="#f8c300"
+            android:pathData="M 672.0,340.7 a 12.5,12.5 0,0,1 23.3,5.9 v 50 h 9.4 v -50 a 12.5,12.5 0,0,1
+23.3,-5.9 a 29.5,29.5 0,1,0 -56,0" />
+        <path
+            android:fillColor="#fff"
+            android:pathData="M 678.7,327.65 a 20,20 0,0,1 21.3,9.55 a 20,20 0,0,1 21.3,-9.55 a 21.5,21.5
+0,0,0 -42.6,0" />
+        <path
+            android:fillColor="#f8c300"
+            android:pathData="M 695.3,376.627 a 38,38 0 0 1 -63.845,24.316 a 39.5,39.5 0 0 1 -59.734,17.467 c
+3.6496,36.426 58.252,28.989 62.32,-6.4288 17.154,30.115 54.873,21.49 65.91,-15.4
+z" />
+        <path
+            android:fillColor="#f8c300"
+            android:pathData="M 658.84,441.31 c -7.6181,16.446 -22.845,19.271 -36.164,5.9953 0,0
+5.3539,-3.7831 11.086,-4.826 -1.0748,-4.5744 1.1291,-10.902 4.2354,-14.324
+3.2575,2.2264 7.8036,6.6886 8.9598,11.874 8.0291,-1.0394 11.883,1.2815
+11.883,1.2815 z" />
+        <path
+            android:strokeColor="#f8c300"
+            android:strokeWidth="16"
+            android:pathData="M 603,478 a 340,340 0 0 1 194,0" />
+        <group
+            android:translateX="700"
+            android:translateY="380">
+            <group
+                android:translateY="-140">
+                <path
+                    android:fillColor="#000000"
+                    android:pathData="M 0 -513674 L 301930 415571 L -488533 -158734 L 488533 -158734 L -301930 415571 Z" />
+            </group>
+            <group>
+            </group>
+        </group>
+    </group>
+</vector>

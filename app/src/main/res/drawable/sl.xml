@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="12dp"
+    android:height="6dp"
+    android:viewportWidth="12"
+    android:viewportHeight="6">
+
+    <path
+        android:fillColor="#ed1c24"
+        android:pathData="M 0 0 H 12 V 6 H 0 V 0 Z" />
+    <path
+        android:fillColor="#005da4"
+        android:pathData="M 0 0 H 12 V 4 H 0 V 0 Z" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M 0 0 H 12 V 2 H 0 V 0 Z" />
+    <group
+        android:translateX="2.2238"
+        android:translateY="1"
+        android:scaleX=".12937"
+        android:scaleY="0">
+    </group>
+    <path
+        android:fillColor="#005da4"
+        android:pathData="M110.26-19.478l9.74-143.75a280.22 280.22 0 0 0 -240 0l9.74 143.75a155.61 155.61
+0 0 0 110.26 138.45 155.61 155.61 0 0 0 110.26 -138.45" />
+    <path
+        android:fillColor="#fff"
+        android:pathData="M-90 0a138.29 138.29 0 0 0 90 100.77 138.29 138.29 0 0 0 90 -100.77l-45-60-18
+24-27-54-27 54-18-24-45 60" />
+    <group
+        android:translateY="5.1962"
+        android:scaleX="5"
+        android:scaleY="0">
+        <path
+            android:fillColor="#005da4"
+            android:pathData="M-17.196-2.1962a6 6 0 0 0 8.1962 2.1962 6 6 0 0 1 6 0 6 6 0 0 0 6 0 6 6 0 0 1 6
+0 6 6 0 0 0 8.1962 -2.1962v1.732a6 6 0 0 1 -8.1962 2.1962 6 6 0 0 0 -6 0 6 6 0 0
+1 -6 0 6 6 0 0 0 -6 0 6 6 0 0 1 -8.1962 -2.1962z" />
+    </group>
+    <group
+        android:translateY="-120"
+        android:scaleX="2.25"
+        android:scaleY="0">
+        <path
+            android:fillColor="#fd0"
+            android:strokeWidth=".2"
+            android:pathData="M0-5l1 3.2679 3.3301-0.7679-2.3301 2.5 2.3301 2.5-3.3301-0.7679-1
+3.2679-1-3.2679-3.3301 0.7679 2.3301-2.5-2.3301-2.5 3.3301 0.7679z" />
+    </group>
+    <path
+        android:fillColor="#ed1c24"
+        android:pathData="M-111.58-167.05l9.96 146.99a146.95 146.95 0 0 0 101.62 129.95 146.95 146.95 0 0
+0 101.62 -129.95l9.96-146.99a280.22 280.22 0 0 0 8.42 3.82l-9.74 143.75a155.61
+155.61 0 0 1 -110.26 138.45 155.61 155.61 0 0 1 -110.26
+-138.45l-9.74-143.75a280.22 280.22 0 0 0 8.42 -3.82" />
+</vector>
