@@ -3,25 +3,32 @@ package net.nikonorov.translator.translator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+
+import net.nikonorov.translator.translator.API.API;
+import net.nikonorov.translator.translator.API.Text;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-
+import retrofit.Call;
 import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class TranslationActivity extends BaseActivity {
 
@@ -64,7 +71,7 @@ public class TranslationActivity extends BaseActivity {
                 .build();
     }
 
-    public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException {
+    public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException, IOException {
         EditText textToTranslate = (EditText) findViewById(R.id.textToTranslate);
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
@@ -73,47 +80,42 @@ public class TranslationActivity extends BaseActivity {
 
         if (strToTranslate != null) {
 
-            RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("https://translate.yandex.net")
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://translate.yandex.net/api/v1.5/tr.json/")
+                    .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
-            NetAPI service = restAdapter.create(NetAPI.class);
+            API myAPI = retrofit.create(API.class);
+
+            Call<Text> call = myAPI.getText("trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4",
+                    strToTranslate,
+                    Settings.DIRECTION,
+                    "plain");
 
 
-            service.translate(strToTranslate, Settings.DIRECTION, new Callback<Translated>() {
 
+            call.enqueue(new Callback<Text>() {
                 @Override
-                public void success(Translated result, Response response) {
-                    TextView translated = (TextView) findViewById(R.id.translated);
+                public void onResponse(Response<Text> response, Retrofit retrofit) {
+                    Text text = response.body();
+                    String[] result = text.text;
 
                     StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < result.text.length; i++) {
-                        sb.append(result.text[i]);
-                        if (i != result.text.length - 1) {
+                    for (int i = 0; i < result.length; i++) {
+                        sb.append(result[i]);
+                        if (i != result.length - 1) {
                             sb.append(" ");
                         }
                     }
-
+                    TextView translated = (TextView) findViewById(R.id.translated);
                     translated.setText(sb.toString());
-
                 }
 
-                public void failure(RetrofitError arg0) {
+                @Override
+                public void onFailure(Throwable t) {
+
                 }
             });
-
-
-            /*
-            JSONObject output =
-                    new NetWorker()
-                            .execute("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
-                                    "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4" +
-                                    "&text=" + strToTranslate +
-                                    "&lang="+ Settings.DIRECTION +
-                                    "&format=plain")
-                            .get();
-            */
-
         }
     }
 }
