@@ -18,6 +18,11 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class TranslationActivity extends BaseActivity {
 
     @Override
@@ -64,7 +69,41 @@ public class TranslationActivity extends BaseActivity {
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
 
+
+
         if (strToTranslate != null) {
+
+            RestAdapter restAdapter = new RestAdapter.Builder()
+                    .setEndpoint("https://translate.yandex.net")
+                    .build();
+
+            NetAPI service = restAdapter.create(NetAPI.class);
+
+
+            service.translate(strToTranslate, Settings.DIRECTION, new Callback<Translated>() {
+
+                @Override
+                public void success(Translated result, Response response) {
+                    TextView translated = (TextView) findViewById(R.id.translated);
+
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < result.text.length; i++) {
+                        sb.append(result.text[i]);
+                        if (i != result.text.length - 1) {
+                            sb.append(" ");
+                        }
+                    }
+
+                    translated.setText(sb.toString());
+
+                }
+
+                public void failure(RetrofitError arg0) {
+                }
+            });
+
+
+            /*
             JSONObject output =
                     new NetWorker()
                             .execute("https://translate.yandex.net/api/v1.5/tr.json/translate?" +
@@ -73,20 +112,8 @@ public class TranslationActivity extends BaseActivity {
                                     "&lang="+ Settings.DIRECTION +
                                     "&format=plain")
                             .get();
+            */
 
-            TextView translated = (TextView) findViewById(R.id.translated);
-
-            JSONArray resArray = output.getJSONArray("text");
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < resArray.length(); i++) {
-                sb.append(resArray.getString(i));
-                if (i != resArray.length() - 1) {
-                    sb.append(" ");
-                }
-            }
-
-            translated.setText(sb.toString());
         }
     }
 }
