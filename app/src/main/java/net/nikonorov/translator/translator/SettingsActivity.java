@@ -47,7 +47,6 @@ public class SettingsActivity extends BaseActivity {
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv.setLayoutManager(llm);
-
     }
 
     @Override
@@ -114,7 +113,7 @@ public class SettingsActivity extends BaseActivity {
     private void initializeData(JSONArray langList) throws JSONException {
         directions = new ArrayList<>();
         for (int j = 0; j < langList.length(); j++) {
-            directions.add(new Direction(R.drawable.ic_settings_applications_black_48dp, R.drawable.ic_settings_applications_black_48dp, langList.getString(j)));
+            directions.add(new Direction(langList.getString(j), this));
         }
     }
 
