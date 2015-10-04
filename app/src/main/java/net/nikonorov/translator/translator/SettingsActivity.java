@@ -32,6 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+
 public class SettingsActivity extends BaseActivity {
 
     private List<Direction> directions;
@@ -53,9 +57,26 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        JSONArray langList = null;
 
-        try {
+
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("https://translate.yandex.net")
+                .build();
+        NetAPI service = restAdapter.create(NetAPI.class);
+
+
+        service.getDirections(new Callback<Dirs>() {
+            public void success(Dirs dirs, retrofit.client.Response arg1) {
+                initializeData(dirs);
+                initializeAdapter();
+            }
+
+            public void failure(RetrofitError arg0) {
+            }
+        });
+
+        //JSONArray langList = null;
+        /*try {
             langList = loadLangList();
             initializeData(langList);
             initializeAdapter();
@@ -65,7 +86,8 @@ public class SettingsActivity extends BaseActivity {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
+
     }
 
     @Override
@@ -100,8 +122,11 @@ public class SettingsActivity extends BaseActivity {
                 .build();
     }
 
+
+
     private JSONArray loadLangList() throws ExecutionException, InterruptedException, JSONException {
-            JSONObject output =
+
+        JSONObject output =
                     new NetWorker()
                             .execute("https://translate.yandex.net/api/v1.5/tr.json/getLangs?" +
                                     "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4")
@@ -111,10 +136,10 @@ public class SettingsActivity extends BaseActivity {
     }
 
 
-    private void initializeData(JSONArray langList) throws JSONException {
+    private void initializeData(Dirs langList) {
         directions = new ArrayList<>();
-        for (int j = 0; j < langList.length(); j++) {
-            directions.add(new Direction(langList.getString(j), this));
+        for (int j = 0; j < langList.dirs.length; j++) {
+            directions.add(new Direction(langList.dirs[j], this));
         }
     }
 

@@ -63,6 +63,7 @@ public class TranslationActivity extends BaseActivity {
         EditText textToTranslate = (EditText) findViewById(R.id.textToTranslate);
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
+
         if (strToTranslate != null) {
             JSONObject output =
                     new NetWorker()
