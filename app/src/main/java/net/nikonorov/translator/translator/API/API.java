@@ -19,5 +19,7 @@ import retrofit.http.Query;
 public interface API {
     @GET("translate")
     public Call<Text> getText(@Query("key") String key, @Query("text") String text, @Query("lang") String lang, @Query("format") String format);
+    @GET("getLangs")
+    public Call<Lang> getLangs(@Query("key") String key);
 
 }

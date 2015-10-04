@@ -24,6 +24,10 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import net.nikonorov.translator.translator.API.API;
+import net.nikonorov.translator.translator.API.Lang;
+import net.nikonorov.translator.translator.API.Text;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +35,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 public class SettingsActivity extends BaseActivity {
 
@@ -53,19 +63,35 @@ public class SettingsActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        JSONArray langList = null;
 
-        try {
-            langList = loadLangList();
-            initializeData(langList);
-            initializeAdapter();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://translate.yandex.net/api/v1.5/tr.json/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        API myAPI = retrofit.create(API.class);
+
+        Call<Lang> call = myAPI.getLangs("trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4");
+
+        call.enqueue(new Callback<Lang>() {
+            @Override
+            public void onResponse(Response<Lang> response, Retrofit retrofit) {
+                Lang langs = response.body();
+                String[] lang = langs.dirs;
+                try {
+                    initializeData(lang);
+                    initializeAdapter();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
     }
 
     @Override
@@ -100,21 +126,10 @@ public class SettingsActivity extends BaseActivity {
                 .build();
     }
 
-    private JSONArray loadLangList() throws ExecutionException, InterruptedException, JSONException {
-            JSONObject output =
-                    new NetWorker()
-                            .execute("https://translate.yandex.net/api/v1.5/tr.json/getLangs?" +
-                                    "key=trnsl.1.1.20150910T133746Z.5f37f78e06dd5d11.fcd0af38575fe88ec9a7b5c0921ff58d0fa007b4")
-                            .get();
-
-            return output.getJSONArray("dirs");
-    }
-
-
-    private void initializeData(JSONArray langList) throws JSONException {
+    private void initializeData(String[] langList) throws JSONException {
         directions = new ArrayList<>();
-        for (int j = 0; j < langList.length(); j++) {
-            directions.add(new Direction(langList.getString(j), this));
+        for (int j = 0; j < langList.length; j++) {
+            directions.add(new Direction(langList[j], this));
         }
     }
 
