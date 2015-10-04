@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -118,7 +119,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initializeAdapter(){
-        RVSettingAdapter adapter = new RVSettingAdapter(directions);
+        RVSettingAdapter adapter = new RVSettingAdapter(directions, this);
         rv.setAdapter(adapter);
     }
 
