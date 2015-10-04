@@ -13,15 +13,11 @@ public class Direction {
     String direction;
 
     Direction(String direction, Context context){
-        /*
-        if(direction.substring(0,2).equals("az")){
-            this.langFrom = R.drawable.az;
-        }else {
-            this.langFrom = R.drawable.ic_settings_applications_black_48dp;
-        }
-        */
-        this.langFrom = getIntAndroidDrawable(direction.substring(0,2), context);
-        this.langTo = getIntAndroidDrawable(direction.substring(3,5), context);
+
+        //this.langFrom = getIntAndroidDrawable(direction.substring(0,2), context);
+        //this.langTo = getIntAndroidDrawable(direction.substring(3,5), context);
+        this.langFrom = R.drawable.ic_translate_black_48dp;
+        this.langTo = R.drawable.ic_translate_black_48dp;
         this.direction = direction;
     }
 
