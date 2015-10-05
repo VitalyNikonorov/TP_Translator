@@ -48,5 +48,11 @@
             >
         </TextView>
 
+        <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Переведено сервисом «Яндекс.Переводчик» \nhttp://translate.yandex.ru/."
+            />
     </LinearLayout>
 </LinearLayout>
