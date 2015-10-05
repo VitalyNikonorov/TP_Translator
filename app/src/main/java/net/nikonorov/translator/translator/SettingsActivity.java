@@ -8,20 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
 
-
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-
 import net.nikonorov.translator.translator.API.API;
 import net.nikonorov.translator.translator.API.Lang;
 
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;

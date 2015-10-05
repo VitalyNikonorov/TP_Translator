@@ -14,9 +14,9 @@ public class Direction {
 
     Direction(String direction, Context context){
 
-        //this.langFrom = getIntAndroidDrawable(direction.substring(0,2), context);
+        this.langFrom = getIntAndroidDrawable(direction.substring(0,2), context);
         //this.langTo = getIntAndroidDrawable(direction.substring(3,5), context);
-        this.langFrom = R.drawable.ic_translate_black_48dp;
+        //this.langFrom = R.drawable.ic_translate_black_48dp;
         this.langTo = R.drawable.ic_translate_black_48dp;
         this.direction = direction;
     }
