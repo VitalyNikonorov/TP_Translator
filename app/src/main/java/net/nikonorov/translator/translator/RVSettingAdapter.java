@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 /**
@@ -65,8 +67,10 @@ public class RVSettingAdapter extends RecyclerView.Adapter<RVSettingAdapter.Card
     @Override
     public void onBindViewHolder(CardViewHolder personViewHolder, int i) {
         personViewHolder.dirs.setText(directions.get(i).direction);
-        personViewHolder.langFrom.setImageResource(directions.get(i).langFrom);
-        personViewHolder.langTo.setImageResource(directions.get(i).langTo);
+        //personViewHolder.langFrom.setImageResource(directions.get(i).langFrom);
+        Picasso.with(context).load(directions.get(i).langFrom).into(personViewHolder.langFrom);
+        //personViewHolder.langTo.setImageResource(directions.get(i).langTo);
+        Picasso.with(context).load(directions.get(i).langTo).into(personViewHolder.langTo);
     }
 
     @Override
