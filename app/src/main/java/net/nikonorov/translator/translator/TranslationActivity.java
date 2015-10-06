@@ -1,26 +1,23 @@
 package net.nikonorov.translator.translator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-
 import net.nikonorov.translator.translator.API.API;
 import net.nikonorov.translator.translator.API.Text;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -31,13 +28,14 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 public class TranslationActivity extends BaseActivity {
+    EditText textToTranslate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translation);
         initToolbar();
-
+        textToTranslate = (EditText) findViewById(R.id.textToTranslate);
     }
 
     @Override
@@ -72,12 +70,11 @@ public class TranslationActivity extends BaseActivity {
     }
 
     public void translateBtnClc(View view) throws ExecutionException, InterruptedException, JSONException, IOException {
-        EditText textToTranslate = (EditText) findViewById(R.id.textToTranslate);
+
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
 
-
-
+        hideSoftKeyboard();
         if (strToTranslate != null) {
 
             Retrofit retrofit = new Retrofit.Builder()
@@ -118,4 +115,12 @@ public class TranslationActivity extends BaseActivity {
             });
         }
     }
+
+    private void hideSoftKeyboard(){
+        if(getCurrentFocus()!=null && getCurrentFocus() instanceof EditText){
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(textToTranslate.getWindowToken(), 0);
+        }
+    }
+
 }
