@@ -1,5 +1,7 @@
 package net.nikonorov.translator.translator;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,12 +32,22 @@ import retrofit.Retrofit;
 public class TranslationActivity extends BaseActivity {
     EditText textToTranslate;
 
+    TextView translated;
+    View mLoadingView;
+    boolean inprocess = false;
+
+    private int mShortAnimationDuration;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_translation);
         initToolbar();
         textToTranslate = (EditText) findViewById(R.id.textToTranslate);
+        mLoadingView = findViewById(R.id.loading_spinner);
+        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        translated = (TextView) findViewById(R.id.translated);
     }
 
     @Override
@@ -74,6 +86,9 @@ public class TranslationActivity extends BaseActivity {
         String strToTranslate = null;
         strToTranslate = textToTranslate.getText().toString();
 
+        showContentOrLoadingIndicator(inprocess);
+        inprocess = !inprocess;
+
         hideSoftKeyboard();
         if (strToTranslate != null) {
 
@@ -97,6 +112,9 @@ public class TranslationActivity extends BaseActivity {
                     Text text = response.body();
                     String[] result = text.text;
 
+                    showContentOrLoadingIndicator(inprocess);
+                    inprocess = !inprocess;
+
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < result.length; i++) {
                         sb.append(result[i]);
@@ -104,7 +122,6 @@ public class TranslationActivity extends BaseActivity {
                             sb.append(" ");
                         }
                     }
-                    TextView translated = (TextView) findViewById(R.id.translated);
                     translated.setText(sb.toString());
                 }
 
@@ -114,6 +131,39 @@ public class TranslationActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    private void showContentOrLoadingIndicator(boolean contentLoaded) {
+        // Decide which view to hide and which to show.
+        final View showView = contentLoaded ? translated : mLoadingView;
+        final View hideView = contentLoaded ? mLoadingView : translated;
+
+        // Set the "show" view to 0% opacity but visible, so that it is visible
+        // (but fully transparent) during the animation.
+        showView.setAlpha(0f);
+        showView.setVisibility(View.VISIBLE);
+
+        // Animate the "show" view to 100% opacity, and clear any animation listener set on
+        // the view. Remember that listeners are not limited to the specific animation
+        // describes in the chained method calls. Listeners are set on the
+        // ViewPropertyAnimator object for the view, which persists across several
+        // animations.
+        showView.animate()
+                .alpha(1f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(null);
+
+        // Animate the "hide" view to 0% opacity. After the animation ends, set its visibility
+        // to GONE as an optimization step (it won't participate in layout passes, etc.)
+        hideView.animate()
+                .alpha(0f)
+                .setDuration(mShortAnimationDuration)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        hideView.setVisibility(View.GONE);
+                    }
+                });
     }
 
     private void hideSoftKeyboard(){
